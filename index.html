@@ -4,6 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Gestão UTI Digital - HUB</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#075c67">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Gestão UTI">
+<link rel="apple-touch-icon" href="icon-192.png">
+
 <style>
 :root{
   --hub-blue:#003b7a;
@@ -230,5 +237,16 @@ function exportarBackup(){baixar("backup_gestao_uti_digital_v11.json",JSON.strin
 function baixar(nome,conteudo,tipo){const blob=new Blob([conteudo],{type:tipo}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download=nome;a.click();URL.revokeObjectURL(url)}
 function atualizarTudo(){listaPacientes.innerHTML=listaPacientesHTML();atualizarDashboard();atualizarAlertas();atualizarTabelas()}
 </script>
+
+<script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", function() {
+    navigator.serviceWorker.register("./sw.js")
+      .then(function() { console.log("Service Worker registrado."); })
+      .catch(function(err) { console.log("Falha ao registrar Service Worker:", err); });
+  });
+}
+</script>
+
 </body>
 </html>
