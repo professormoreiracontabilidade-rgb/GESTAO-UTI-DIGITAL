@@ -5,21 +5,25 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Gestão UTI Digital</title>
 <style>
-:root{--azul:#075c67;--verde:#047857;--vermelho:#b91c1c;--amarelo:#b45309;--bg:#eef6f7;--texto:#0f172a}
+:root{
+  --azul:#075c67;--azul2:#084866;--verde:#047857;--vermelho:#b91c1c;--amarelo:#b45309;
+  --bg:#eef6f7;--texto:#0f172a;--card:#ffffff;
+}
 *{box-sizing:border-box}
 body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--texto)}
-header{background:linear-gradient(90deg,#075c67,#08766f);color:white;padding:22px 14px;text-align:center;box-shadow:0 4px 18px rgba(0,0,0,.18)}
+header{background:linear-gradient(90deg,#064e5a,#0f766e);color:white;padding:22px 14px;text-align:center;box-shadow:0 4px 18px rgba(0,0,0,.18)}
 header h1{margin:0;font-size:25px} header p{margin:5px 0 0;font-size:14px}
-.container{max-width:980px;margin:auto;padding:16px}
-.card{background:white;border-radius:18px;padding:18px;margin:14px 0;box-shadow:0 5px 18px rgba(15,23,42,.10)}
+.container{max-width:1050px;margin:auto;padding:16px}
+.card{background:var(--card);border-radius:18px;padding:18px;margin:14px 0;box-shadow:0 5px 18px rgba(15,23,42,.10)}
 h2{margin-top:0}
 input,select,textarea{width:100%;padding:13px;margin:6px 0 12px;border:1px solid #cbd5e1;border-radius:12px;font-size:16px}
 label{font-weight:bold;font-size:14px}
 button{width:100%;border:none;border-radius:14px;padding:14px;margin:7px 0;background:#084866;color:white;font-weight:bold;font-size:16px;cursor:pointer}
-button.sec{background:#0f766e} button.danger{background:#b91c1c} button.warn{background:#b45309}
+button.sec{background:#0f766e}button.danger{background:#b91c1c}button.warn{background:#b45309}
 .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
 .stat{background:#f8fafc;border-left:6px solid var(--azul);border-radius:14px;padding:14px}
-.stat b{font-size:25px;display:block}.stat.red{border-left-color:#dc2626;background:#fff1f2}.stat.yellow{border-left-color:#f59e0b;background:#fffbeb}.stat.green{border-left-color:#16a34a;background:#ecfdf5}
+.stat b{font-size:27px;display:block}.stat.red{border-left-color:#dc2626;background:#fff1f2}.stat.yellow{border-left-color:#f59e0b;background:#fffbeb}.stat.green{border-left-color:#16a34a;background:#ecfdf5}.stat.blue{border-left-color:#2563eb;background:#eff6ff}
 .menu button{text-align:left}.hidden{display:none}
 .alerta{padding:12px;border-radius:12px;margin:8px 0;font-weight:bold}
 .redBox{background:#fee2e2;color:#7f1d1d;border-left:6px solid #dc2626}.yellowBox{background:#fef3c7;color:#78350f;border-left:6px solid #f59e0b}.greenBox{background:#dcfce7;color:#14532d;border-left:6px solid #16a34a}.blueBox{background:#dbeafe;color:#1e3a8a;border-left:6px solid #2563eb}
@@ -29,13 +33,20 @@ table{width:100%;border-collapse:collapse;font-size:14px} th,td{border-bottom:1p
 .topbar{display:flex;gap:8px}.topbar button{width:auto;flex:1;font-size:13px;padding:10px}
 .badge{display:inline-block;padding:5px 9px;border-radius:999px;font-size:12px;font-weight:bold}.badge.red{background:#fee2e2;color:#991b1b}.badge.yellow{background:#fef3c7;color:#92400e}.badge.green{background:#dcfce7;color:#166534}
 .secao{border-top:1px solid #e2e8f0;margin-top:12px;padding-top:12px}
-@media(max-width:620px){.grid{grid-template-columns:1fr}header h1{font-size:22px}table{font-size:12px}}
+.barwrap{background:#e5e7eb;border-radius:999px;height:20px;overflow:hidden;margin:5px 0 12px}
+.bar{height:100%;background:#0f766e;width:0%;color:white;text-align:right;padding-right:6px;font-size:12px;line-height:20px}
+.bar.red{background:#dc2626}.bar.yellow{background:#f59e0b}.bar.blue{background:#2563eb}
+.kpiTitle{font-size:13px;font-weight:bold;margin-top:10px}
+.hero{background:linear-gradient(135deg,#064e5a,#0f766e);color:white;border-radius:20px;padding:20px;margin:14px 0}
+.hero .big{font-size:36px;font-weight:bold}
+@media(max-width:760px){.grid,.grid3{grid-template-columns:1fr}header h1{font-size:22px}table{font-size:12px}}
 @media print{header,.menu,.no-print,button{display:none!important}body{background:white}.card{box-shadow:none;border:1px solid #ddd}}
 </style>
 </head>
 <body>
-<header><h1>🏥 Gestão UTI Digital</h1><p>Versão 9 — Alertas Inteligentes e Dashboard Executivo</p></header>
+<header><h1>🏥 Gestão UTI Digital</h1><p>Versão 10 — Dashboard Executivo Hospitalar</p></header>
 <div class="container">
+
 <section id="login" class="card">
 <h2>Entrada segura</h2>
 <div class="aviso"><b>Aviso institucional:</b> sistema de apoio à gestão assistencial. Não substitui o prontuário oficial, prescrição médica, evolução profissional ou protocolos institucionais vigentes.</div><br>
@@ -47,18 +58,60 @@ table{width:100%;border-collapse:collapse;font-size:14px} th,td{border-bottom:1p
 </section>
 
 <section id="app" class="hidden">
-<div class="card no-print"><div class="topbar"><button onclick="mostrar('home')">🏠 Início</button><button class="warn" onclick="exportarBackup()">💾 Backup</button><button class="danger" onclick="sair()">Sair</button></div><p class="small" id="sessao"></p></div>
+<div class="card no-print"><div class="topbar"><button onclick="mostrar('home')">🏠 Início</button><button onclick="mostrar('dashboard')">📊 Dashboard</button><button class="warn" onclick="exportarBackup()">💾 Backup</button><button class="danger" onclick="sair()">Sair</button></div><p class="small" id="sessao"></p></div>
 
 <section id="home" class="tela">
-<div class="card"><h2>📊 Dashboard Executivo</h2><div class="grid">
-<div class="stat"><b id="stInternados">0</b>Internados</div><div class="stat"><b id="stLeitos">0</b>Leitos totais</div><div class="stat"><b id="stAltas">0</b>Altas</div><div class="stat"><b id="stObitos">0</b>Óbitos</div>
-<div class="stat red"><b id="stMaior15">0</b>Pacientes &gt; 15 dias</div><div class="stat yellow"><b id="stVM">0</b>Pacientes em VM</div><div class="stat yellow"><b id="stCVC">0</b>CVC/GVC</div><div class="stat yellow"><b id="stSVD">0</b>SVD</div>
-<div class="stat yellow"><b id="stIso">0</b>Isolamentos</div><div class="stat yellow"><b id="stCulturas">0</b>Culturas pendentes</div><div class="stat red"><b id="stCriticos">0</b>Alertas críticos</div><div class="stat yellow"><b id="stAtencao">0</b>Alertas de atenção</div>
-</div></div>
+<div class="hero">
+<h2>Dashboard Executivo da UTI</h2>
+<div class="grid">
+<div><div class="small" style="color:#d1fae5">Leitos ocupados</div><div class="big"><span id="heroOcupados">0</span>/<span id="heroLeitos">0</span></div></div>
+<div><div class="small" style="color:#d1fae5">Taxa de ocupação</div><div class="big"><span id="heroTaxa">0</span>%</div></div>
+</div>
+</div>
+
 <div class="card"><h2>🚨 Resumo Inteligente</h2><div id="resumoInteligente"></div></div>
+
 <div class="card menu no-print"><h2>Menu principal</h2>
-<button onclick="mostrar('pacientes')">👤 Pacientes</button><button onclick="mostrar('novoPaciente')">➕ Cadastrar paciente</button><button onclick="mostrar('huddle')">📋 Huddle</button><button onclick="mostrar('dispositivos')">💉 Dispositivos</button><button onclick="mostrar('alertas')">🚨 Central de Alertas Inteligente</button><button onclick="mostrar('relatorios')">🖨️ Relatórios</button>
-</div></section>
+<button onclick="mostrar('dashboard')">📊 Dashboard Executivo</button>
+<button onclick="mostrar('pacientes')">👤 Pacientes</button>
+<button onclick="mostrar('novoPaciente')">➕ Cadastrar paciente</button>
+<button onclick="mostrar('huddle')">📋 Huddle</button>
+<button onclick="mostrar('dispositivos')">💉 Dispositivos</button>
+<button onclick="mostrar('alertas')">🚨 Central de Alertas Inteligente</button>
+<button onclick="mostrar('relatorios')">🖨️ Relatórios</button>
+</div>
+</section>
+
+<section id="dashboard" class="tela hidden">
+<div class="card"><h2>📊 Indicadores Operacionais</h2><div class="grid3">
+<div class="stat blue"><b id="stLeitos">0</b>Leitos totais</div><div class="stat green"><b id="stInternados">0</b>Internados</div><div class="stat yellow"><b id="stTaxa">0%</b>Taxa de ocupação</div>
+<div class="stat"><b id="stAltas">0</b>Altas</div><div class="stat red"><b id="stObitos">0</b>Óbitos</div><div class="stat red"><b id="stMaior15">0</b>Pacientes &gt; 15 dias</div>
+</div>
+<div class="kpiTitle">Taxa de ocupação</div><div class="barwrap"><div id="barOcupacao" class="bar">0%</div></div>
+</div>
+
+<div class="card"><h2>💉 Indicadores Assistenciais</h2><div class="grid3">
+<div class="stat yellow"><b id="stVM">0</b>VM</div><div class="stat yellow"><b id="stCVC">0</b>CVC/GVC</div><div class="stat yellow"><b id="stSVD">0</b>SVD</div>
+<div class="stat yellow"><b id="stSNE">0</b>SNE/SNG</div><div class="stat yellow"><b id="stIso">0</b>Isolamentos</div><div class="stat"><b id="stCulturas">0</b>Culturas pendentes</div>
+</div>
+<div class="kpiTitle">Dispositivos ativos</div>
+<div id="grafDispositivos"></div>
+</div>
+
+<div class="card"><h2>🚨 Segurança e Alertas</h2><div class="grid3">
+<div class="stat red"><b id="stCriticos">0</b>Alertas críticos</div><div class="stat yellow"><b id="stAtencao">0</b>Alertas atenção</div><div class="stat green"><b id="stControlados">0</b>Pacientes controlados</div>
+<div class="stat red"><b id="stBraden">0</b>Braden crítico</div><div class="stat yellow"><b id="stMorse">0</b>Morse elevado</div><div class="stat red"><b id="stSOFA">0</b>SOFA elevado</div>
+</div>
+<div class="kpiTitle">Alertas</div>
+<div id="grafAlertas"></div>
+</div>
+
+<div class="card"><h2>🦠 Controle de Infecção / CCIRAS</h2><div class="grid3">
+<div class="stat yellow"><b id="stIrasSuspeita">0</b>IRAS suspeitas</div><div class="stat red"><b id="stIrasConfirmada">0</b>IRAS confirmadas</div><div class="stat yellow"><b id="stCulturas2">0</b>Culturas pendentes</div>
+</div>
+<div class="small">Nesta versão, IRAS suspeita/confirmada ainda é informada no cadastro do paciente.</div>
+</div>
+</section>
 
 <section id="pacientes" class="tela hidden"><div class="card"><h2>👤 Pacientes cadastrados</h2><div id="listaPacientes"></div></div></section>
 
@@ -67,17 +120,20 @@ table{width:100%;border-collapse:collapse;font-size:14px} th,td{border-bottom:1p
 <label>Diagnóstico principal</label><input id="pDiagnostico"><label>HD</label><input id="pHD">
 <label>Status *</label><select id="pStatus"><option>Internado</option><option>Alta</option><option>Óbito</option><option>Transferência</option></select>
 <label>Origem</label><select id="pOrigem"><option>PS</option><option>Centro Cirúrgico</option><option>Enfermaria</option><option>Regulação</option></select>
+
 <div class="secao"><h3>Dispositivos</h3></div>
 <label>Ventilação mecânica</label><select id="pVM"><option>Não</option><option>Sim</option></select><label>Data de início da VM</label><input id="pDataVM" type="date">
 <label>CVC/GVC</label><select id="pCVC"><option>Não</option><option>Sim</option></select><label>Data de inserção do CVC/GVC</label><input id="pDataCVC" type="date">
 <label>SVD</label><select id="pSVD"><option>Não</option><option>Sim</option></select><label>Data de inserção da SVD</label><input id="pDataSVD" type="date">
 <label>SNE/SNG</label><select id="pSNE"><option>Não</option><option>Sim</option></select>
-<div class="secao"><h3>Riscos e escalas</h3></div>
+
+<div class="secao"><h3>Riscos, escalas e CCIRAS</h3></div>
 <label>Isolamento</label><select id="pIso"><option>Não</option><option>Sim</option></select>
 <label>Braden</label><input id="pBraden" type="number" placeholder="Alerta crítico se ≤ 12">
 <label>Morse</label><input id="pMorse" type="number" placeholder="Atenção se ≥ 45">
 <label>SOFA</label><input id="pSOFA" type="number" placeholder="Crítico se ≥ 8">
 <label>Cultura pendente?</label><select id="pCultura"><option>Não</option><option>Sim</option></select>
+<label>IRAS</label><select id="pIras"><option>Sem registro</option><option>Suspeita</option><option>Confirmada</option></select>
 <label>Exame de imagem pendente?</label><select id="pImgPend"><option>Não</option><option>Sim</option></select>
 <label>Exame laboratorial pendente?</label><select id="pLabPend"><option>Não</option><option>Sim</option></select>
 <label>Medicamento pendente?</label><select id="pMedPend"><option>Não</option><option>Sim</option></select>
@@ -103,28 +159,30 @@ table{width:100%;border-collapse:collapse;font-size:14px} th,td{border-bottom:1p
 <script>
 const SENHAS={"Coordenação":"1234","Enfermagem":"enf123","Medicina":"med123","Fisioterapia":"fisio123","Consulta":"consulta"};
 let usuarioAtual="",perfilAtual="";
-let pacientes=JSON.parse(localStorage.getItem("uti_pacientes_v9")||localStorage.getItem("uti_pacientes_v8")||"[]");
-let huddle=JSON.parse(localStorage.getItem("uti_huddle_v9")||localStorage.getItem("uti_huddle_v8")||"{}");
+let pacientes=JSON.parse(localStorage.getItem("uti_pacientes_v10")||localStorage.getItem("uti_pacientes_v9")||localStorage.getItem("uti_pacientes_v8")||"[]");
+let huddle=JSON.parse(localStorage.getItem("uti_huddle_v10")||localStorage.getItem("uti_huddle_v9")||localStorage.getItem("uti_huddle_v8")||"{}");
 
 function entrar(){const u=usuario.value.trim(),p=perfil.value,s=senha.value;if(!u){alert("Informe o nome do usuário.");return}if(SENHAS[p]!==s){alert("Senha incorreta para o perfil selecionado.");return}usuarioAtual=u;perfilAtual=p;login.classList.add("hidden");app.classList.remove("hidden");sessao.innerText="Usuário: "+u+" | Perfil: "+p;carregarHuddle();atualizarTudo()}
 function sair(){location.reload()} function mostrar(id){document.querySelectorAll(".tela").forEach(t=>t.classList.add("hidden"));document.getElementById(id).classList.remove("hidden");atualizarTudo()}
 function diasDesde(data){if(!data)return 0;const hoje=new Date();hoje.setHours(0,0,0,0);const d=new Date(data+"T00:00:00");return Math.max(0,Math.floor((hoje-d)/(1000*60*60*24)))} function diasInternado(data){return diasDesde(data)}
-function salvar(){localStorage.setItem("uti_pacientes_v9",JSON.stringify(pacientes));localStorage.setItem("uti_huddle_v9",JSON.stringify(huddle))}
-function salvarPaciente(){const nome=pNome.value.trim(),prontuario=pProntuario.value.trim(),leito=pLeito.value.trim(),admissao=pAdmissao.value,status=pStatus.value;if(!nome||!prontuario||!leito||!admissao||!status){alert("Preencha os campos obrigatórios.");return}const idEdit=editId.value,ant=pacientes.find(x=>x.id===idEdit)||{};const obj={id:idEdit||Date.now().toString(),nome,prontuario,leito,admissao,diagnostico:pDiagnostico.value,hd:pHD.value,status,origem:pOrigem.value,vm:pVM.value,dataVM:pDataVM.value,cvc:pCVC.value,dataCVC:pDataCVC.value,svd:pSVD.value,dataSVD:pDataSVD.value,sne:pSNE.value,isolamento:pIso.value,braden:pBraden.value,morse:pMorse.value,sofa:pSOFA.value,cultura:pCultura.value,imgPend:pImgPend.value,labPend:pLabPend.value,medPend:pMedPend.value,obs:pObs.value,criadoPor:ant.criadoPor||usuarioAtual,criadoEm:ant.criadoEm||new Date().toLocaleString(),alteradoPor:usuarioAtual,alteradoEm:new Date().toLocaleString()};pacientes=idEdit?pacientes.map(p=>p.id===idEdit?obj:p):[...pacientes,obj];salvar();limparFormPaciente();atualizarTudo();mostrar("pacientes")}
-function editarPaciente(id){const p=pacientes.find(x=>x.id===id);if(!p)return;editId.value=p.id;tituloFormPaciente.innerText="✏️ Editar paciente";pNome.value=p.nome||"";pProntuario.value=p.prontuario||"";pLeito.value=p.leito||"";pAdmissao.value=p.admissao||"";pDiagnostico.value=p.diagnostico||"";pHD.value=p.hd||"";pStatus.value=p.status||"Internado";pOrigem.value=p.origem||"PS";pVM.value=p.vm||"Não";pDataVM.value=p.dataVM||"";pCVC.value=p.cvc||"Não";pDataCVC.value=p.dataCVC||"";pSVD.value=p.svd||"Não";pDataSVD.value=p.dataSVD||"";pSNE.value=p.sne||"Não";pIso.value=p.isolamento||"Não";pBraden.value=p.braden||"";pMorse.value=p.morse||"";pSOFA.value=p.sofa||"";pCultura.value=p.cultura||"Não";pImgPend.value=p.imgPend||"Não";pLabPend.value=p.labPend||"Não";pMedPend.value=p.medPend||"Não";pObs.value=p.obs||"";mostrar("novoPaciente")}
+function salvar(){localStorage.setItem("uti_pacientes_v10",JSON.stringify(pacientes));localStorage.setItem("uti_huddle_v10",JSON.stringify(huddle))}
+function pct(n,d){return d?Math.round((n/d)*100):0}
+function barra(label,valor,max,classe=""){const p=Math.min(100,pct(valor,max||1));return `<div class="kpiTitle">${label}: ${valor}</div><div class="barwrap"><div class="bar ${classe}" style="width:${p}%">${p}%</div></div>`}
+function salvarPaciente(){const nome=pNome.value.trim(),prontuario=pProntuario.value.trim(),leito=pLeito.value.trim(),admissao=pAdmissao.value,status=pStatus.value;if(!nome||!prontuario||!leito||!admissao||!status){alert("Preencha os campos obrigatórios.");return}const idEdit=editId.value,ant=pacientes.find(x=>x.id===idEdit)||{};const obj={id:idEdit||Date.now().toString(),nome,prontuario,leito,admissao,diagnostico:pDiagnostico.value,hd:pHD.value,status,origem:pOrigem.value,vm:pVM.value,dataVM:pDataVM.value,cvc:pCVC.value,dataCVC:pDataCVC.value,svd:pSVD.value,dataSVD:pDataSVD.value,sne:pSNE.value,isolamento:pIso.value,braden:pBraden.value,morse:pMorse.value,sofa:pSOFA.value,cultura:pCultura.value,iras:pIras.value,imgPend:pImgPend.value,labPend:pLabPend.value,medPend:pMedPend.value,obs:pObs.value,criadoPor:ant.criadoPor||usuarioAtual,criadoEm:ant.criadoEm||new Date().toLocaleString(),alteradoPor:usuarioAtual,alteradoEm:new Date().toLocaleString()};pacientes=idEdit?pacientes.map(p=>p.id===idEdit?obj:p):[...pacientes,obj];salvar();limparFormPaciente();atualizarTudo();mostrar("pacientes")}
+function editarPaciente(id){const p=pacientes.find(x=>x.id===id);if(!p)return;editId.value=p.id;tituloFormPaciente.innerText="✏️ Editar paciente";pNome.value=p.nome||"";pProntuario.value=p.prontuario||"";pLeito.value=p.leito||"";pAdmissao.value=p.admissao||"";pDiagnostico.value=p.diagnostico||"";pHD.value=p.hd||"";pStatus.value=p.status||"Internado";pOrigem.value=p.origem||"PS";pVM.value=p.vm||"Não";pDataVM.value=p.dataVM||"";pCVC.value=p.cvc||"Não";pDataCVC.value=p.dataCVC||"";pSVD.value=p.svd||"Não";pDataSVD.value=p.dataSVD||"";pSNE.value=p.sne||"Não";pIso.value=p.isolamento||"Não";pBraden.value=p.braden||"";pMorse.value=p.morse||"";pSOFA.value=p.sofa||"";pCultura.value=p.cultura||"Não";pIras.value=p.iras||"Sem registro";pImgPend.value=p.imgPend||"Não";pLabPend.value=p.labPend||"Não";pMedPend.value=p.medPend||"Não";pObs.value=p.obs||"";mostrar("novoPaciente")}
 function excluirPaciente(id){if(confirm("Excluir este paciente do protótipo?")){pacientes=pacientes.filter(p=>p.id!==id);salvar();atualizarTudo()}}
-function limparFormPaciente(){editId.value="";tituloFormPaciente.innerText="➕ Novo paciente";["pNome","pProntuario","pLeito","pAdmissao","pDiagnostico","pHD","pDataVM","pDataCVC","pDataSVD","pBraden","pMorse","pSOFA","pObs"].forEach(id=>document.getElementById(id).value="");pStatus.value="Internado";pOrigem.value="PS";pVM.value="Não";pCVC.value="Não";pSVD.value="Não";pSNE.value="Não";pIso.value="Não";pCultura.value="Não";pImgPend.value="Não";pLabPend.value="Não";pMedPend.value="Não"}
-function gerarAlertas(){let a=[];pacientes.filter(p=>p.status==="Internado").forEach(p=>{const dias=diasInternado(p.admissao),diasVM=diasDesde(p.dataVM),diasCVC=diasDesde(p.dataCVC),diasSVD=diasDesde(p.dataSVD);if(dias>15)a.push({id:p.id,nivel:"critico",txt:`${p.leito} - ${p.nome}: paciente há ${dias} dias internado.`});if(p.vm==="Sim"&&diasVM>14)a.push({id:p.id,nivel:"critico",txt:`${p.leito} - ${p.nome}: VM há ${diasVM} dias.`});if(p.braden&&Number(p.braden)<=12)a.push({id:p.id,nivel:"critico",txt:`${p.leito} - ${p.nome}: Braden ${p.braden} — alto risco de LPP.`});if(p.sofa&&Number(p.sofa)>=8)a.push({id:p.id,nivel:"critico",txt:`${p.leito} - ${p.nome}: SOFA ${p.sofa} — gravidade elevada.`});if(p.cultura==="Sim")a.push({id:p.id,nivel:"critico",txt:`${p.leito} - ${p.nome}: cultura pendente.`});if(p.medPend==="Sim")a.push({id:p.id,nivel:"critico",txt:`${p.leito} - ${p.nome}: medicamento pendente.`});if(p.morse&&Number(p.morse)>=45)a.push({id:p.id,nivel:"atencao",txt:`${p.leito} - ${p.nome}: Morse ${p.morse} — risco de queda.`});if(p.isolamento==="Sim")a.push({id:p.id,nivel:"atencao",txt:`${p.leito} - ${p.nome}: isolamento ativo.`});if(p.imgPend==="Sim")a.push({id:p.id,nivel:"atencao",txt:`${p.leito} - ${p.nome}: exame de imagem pendente.`});if(p.labPend==="Sim")a.push({id:p.id,nivel:"atencao",txt:`${p.leito} - ${p.nome}: exame laboratorial pendente.`});if(p.cvc==="Sim")a.push({id:p.id,nivel:"atencao",txt:`${p.leito} - ${p.nome}: CVC/GVC ativo${diasCVC?` há ${diasCVC} dias`:""}.`});if(p.svd==="Sim")a.push({id:p.id,nivel:"atencao",txt:`${p.leito} - ${p.nome}: SVD ativa${diasSVD?` há ${diasSVD} dias`:""}.`})});if(huddle.hMedic==="Sim")a.push({id:"huddle",nivel:"critico",txt:"Huddle: medicamentos pendentes."});if(huddle.hAcidente==="Sim")a.push({id:"huddle",nivel:"critico",txt:"Huddle: acidente de trabalho registrado."});if(huddle.hImagem==="Sim")a.push({id:"huddle",nivel:"atencao",txt:"Huddle: exames de imagem pendentes."});if(huddle.hLab==="Sim")a.push({id:"huddle",nivel:"atencao",txt:"Huddle: exames laboratoriais pendentes."});if(huddle.hInsumos==="Sim")a.push({id:"huddle",nivel:"atencao",txt:"Huddle: insumos pendentes."});if(huddle.hEnf==="Não"||huddle.hTec==="Não"||huddle.hMed==="Não"||huddle.hFisio==="Não")a.push({id:"huddle",nivel:"atencao",txt:"Huddle: equipe incompleta em pelo menos uma categoria."});return a}
+function limparFormPaciente(){editId.value="";tituloFormPaciente.innerText="➕ Novo paciente";["pNome","pProntuario","pLeito","pAdmissao","pDiagnostico","pHD","pDataVM","pDataCVC","pDataSVD","pBraden","pMorse","pSOFA","pObs"].forEach(id=>document.getElementById(id).value="");pStatus.value="Internado";pOrigem.value="PS";pVM.value="Não";pCVC.value="Não";pSVD.value="Não";pSNE.value="Não";pIso.value="Não";pCultura.value="Não";pIras.value="Sem registro";pImgPend.value="Não";pLabPend.value="Não";pMedPend.value="Não"}
+function gerarAlertas(){let a=[];pacientes.filter(p=>p.status==="Internado").forEach(p=>{const dias=diasInternado(p.admissao),diasVM=diasDesde(p.dataVM),diasCVC=diasDesde(p.dataCVC),diasSVD=diasDesde(p.dataSVD);if(dias>15)a.push({id:p.id,nivel:"critico",txt:`${p.leito} - ${p.nome}: paciente há ${dias} dias internado.`});if(p.vm==="Sim"&&diasVM>14)a.push({id:p.id,nivel:"critico",txt:`${p.leito} - ${p.nome}: VM há ${diasVM} dias.`});if(p.braden&&Number(p.braden)<=12)a.push({id:p.id,nivel:"critico",txt:`${p.leito} - ${p.nome}: Braden ${p.braden} — alto risco de LPP.`});if(p.sofa&&Number(p.sofa)>=8)a.push({id:p.id,nivel:"critico",txt:`${p.leito} - ${p.nome}: SOFA ${p.sofa} — gravidade elevada.`});if(p.cultura==="Sim")a.push({id:p.id,nivel:"critico",txt:`${p.leito} - ${p.nome}: cultura pendente.`});if(p.medPend==="Sim")a.push({id:p.id,nivel:"critico",txt:`${p.leito} - ${p.nome}: medicamento pendente.`});if(p.iras==="Confirmada")a.push({id:p.id,nivel:"critico",txt:`${p.leito} - ${p.nome}: IRAS confirmada.`});if(p.morse&&Number(p.morse)>=45)a.push({id:p.id,nivel:"atencao",txt:`${p.leito} - ${p.nome}: Morse ${p.morse} — risco de queda.`});if(p.isolamento==="Sim")a.push({id:p.id,nivel:"atencao",txt:`${p.leito} - ${p.nome}: isolamento ativo.`});if(p.iras==="Suspeita")a.push({id:p.id,nivel:"atencao",txt:`${p.leito} - ${p.nome}: IRAS suspeita.`});if(p.imgPend==="Sim")a.push({id:p.id,nivel:"atencao",txt:`${p.leito} - ${p.nome}: exame de imagem pendente.`});if(p.labPend==="Sim")a.push({id:p.id,nivel:"atencao",txt:`${p.leito} - ${p.nome}: exame laboratorial pendente.`});if(p.cvc==="Sim")a.push({id:p.id,nivel:"atencao",txt:`${p.leito} - ${p.nome}: CVC/GVC ativo${diasCVC?` há ${diasCVC} dias`:""}.`});if(p.svd==="Sim")a.push({id:p.id,nivel:"atencao",txt:`${p.leito} - ${p.nome}: SVD ativa${diasSVD?` há ${diasSVD} dias`:""}.`})});if(huddle.hMedic==="Sim")a.push({id:"huddle",nivel:"critico",txt:"Huddle: medicamentos pendentes."});if(huddle.hAcidente==="Sim")a.push({id:"huddle",nivel:"critico",txt:"Huddle: acidente de trabalho registrado."});if(huddle.hImagem==="Sim")a.push({id:"huddle",nivel:"atencao",txt:"Huddle: exames de imagem pendentes."});if(huddle.hLab==="Sim")a.push({id:"huddle",nivel:"atencao",txt:"Huddle: exames laboratoriais pendentes."});if(huddle.hInsumos==="Sim")a.push({id:"huddle",nivel:"atencao",txt:"Huddle: insumos pendentes."});if(huddle.hEnf==="Não"||huddle.hTec==="Não"||huddle.hMed==="Não"||huddle.hFisio==="Não")a.push({id:"huddle",nivel:"atencao",txt:"Huddle: equipe incompleta em pelo menos uma categoria."});return a}
 function riscoPaciente(p){const al=gerarAlertas().filter(a=>a.id===p.id),crit=al.filter(a=>a.nivel==="critico").length,aten=al.filter(a=>a.nivel==="atencao").length;if(crit)return'<span class="badge red">Crítico</span>';if(aten)return'<span class="badge yellow">Atenção</span>';return'<span class="badge green">Controlado</span>'}
 function listaPacientesHTML(){if(!pacientes.length)return'<div class="alerta yellowBox">Nenhum paciente cadastrado.</div>';let html='<table><tr><th>Leito</th><th>Paciente</th><th>Dias</th><th>Status</th><th>Risco</th><th></th></tr>';pacientes.forEach(p=>{html+=`<tr><td>${p.leito}</td><td><b>${p.nome}</b><br><span class="small">Pront.: ${p.prontuario}</span></td><td>${diasInternado(p.admissao)}</td><td>${p.status}</td><td>${riscoPaciente(p)}</td><td><button onclick="editarPaciente('${p.id}')">Editar</button><button class="danger" onclick="excluirPaciente('${p.id}')">Excluir</button></td></tr>`});return html+"</table>"}
-function atualizarDashboard(){const internados=pacientes.filter(p=>p.status==="Internado"),alertas=gerarAlertas(),crit=alertas.filter(a=>a.nivel==="critico"),aten=alertas.filter(a=>a.nivel==="atencao");stInternados.innerText=internados.length;stLeitos.innerText=huddle.hLeitos||0;stAltas.innerText=pacientes.filter(p=>p.status==="Alta").length;stObitos.innerText=pacientes.filter(p=>p.status==="Óbito").length;stMaior15.innerText=internados.filter(p=>diasInternado(p.admissao)>15).length;stVM.innerText=internados.filter(p=>p.vm==="Sim").length;stCVC.innerText=internados.filter(p=>p.cvc==="Sim").length;stSVD.innerText=internados.filter(p=>p.svd==="Sim").length;stIso.innerText=internados.filter(p=>p.isolamento==="Sim").length;stCulturas.innerText=internados.filter(p=>p.cultura==="Sim").length;stCriticos.innerText=crit.length;stAtencao.innerText=aten.length;resumoInteligente.innerHTML=crit.length?`<div class="alerta redBox">Existem ${crit.length} alerta(s) crítico(s) que exigem avaliação da equipe.</div>`:aten.length?`<div class="alerta yellowBox">Sem alertas críticos, mas existem ${aten.length} ponto(s) de atenção.</div>`:`<div class="alerta greenBox">Situação controlada no momento.</div>`}
+function atualizarDashboard(){const internados=pacientes.filter(p=>p.status==="Internado"),leitos=Number(huddle.hLeitos||0),alertas=gerarAlertas(),crit=alertas.filter(a=>a.nivel==="critico"),aten=alertas.filter(a=>a.nivel==="atencao"),taxa=pct(internados.length,leitos);heroOcupados.innerText=internados.length;heroLeitos.innerText=leitos;heroTaxa.innerText=taxa;stInternados.innerText=internados.length;stLeitos.innerText=leitos;stTaxa.innerText=taxa+"%";stAltas.innerText=pacientes.filter(p=>p.status==="Alta").length;stObitos.innerText=pacientes.filter(p=>p.status==="Óbito").length;stMaior15.innerText=internados.filter(p=>diasInternado(p.admissao)>15).length;stVM.innerText=internados.filter(p=>p.vm==="Sim").length;stCVC.innerText=internados.filter(p=>p.cvc==="Sim").length;stSVD.innerText=internados.filter(p=>p.svd==="Sim").length;stSNE.innerText=internados.filter(p=>p.sne==="Sim").length;stIso.innerText=internados.filter(p=>p.isolamento==="Sim").length;stCulturas.innerText=internados.filter(p=>p.cultura==="Sim").length;stCulturas2.innerText=stCulturas.innerText;stCriticos.innerText=crit.length;stAtencao.innerText=aten.length;stControlados.innerText=internados.filter(p=>gerarAlertas().filter(a=>a.id===p.id).length===0).length;stBraden.innerText=internados.filter(p=>p.braden&&Number(p.braden)<=12).length;stMorse.innerText=internados.filter(p=>p.morse&&Number(p.morse)>=45).length;stSOFA.innerText=internados.filter(p=>p.sofa&&Number(p.sofa)>=8).length;stIrasSuspeita.innerText=internados.filter(p=>p.iras==="Suspeita").length;stIrasConfirmada.innerText=internados.filter(p=>p.iras==="Confirmada").length;barOcupacao.style.width=Math.min(100,taxa)+"%";barOcupacao.innerText=taxa+"%";barOcupacao.className="bar "+(taxa>=90?"red":taxa>=75?"yellow":"");grafDispositivos.innerHTML=barra("VM",internados.filter(p=>p.vm==="Sim").length,internados.length,"yellow")+barra("CVC/GVC",internados.filter(p=>p.cvc==="Sim").length,internados.length,"yellow")+barra("SVD",internados.filter(p=>p.svd==="Sim").length,internados.length,"yellow")+barra("SNE/SNG",internados.filter(p=>p.sne==="Sim").length,internados.length,"blue");grafAlertas.innerHTML=barra("Críticos",crit.length,Math.max(1,crit.length+aten.length),"red")+barra("Atenção",aten.length,Math.max(1,crit.length+aten.length),"yellow");resumoInteligente.innerHTML=crit.length?`<div class="alerta redBox">Existem ${crit.length} alerta(s) crítico(s). Priorizar avaliação no Huddle.</div>`:aten.length?`<div class="alerta yellowBox">Sem alertas críticos, mas existem ${aten.length} ponto(s) de atenção.</div>`:`<div class="alerta greenBox">Situação controlada no momento.</div>`}
 function atualizarAlertas(){const a=gerarAlertas(),crit=a.filter(x=>x.nivel==="critico"),aten=a.filter(x=>x.nivel==="atencao");alertasCriticos.innerHTML=crit.length?crit.map(x=>`<div class="alerta redBox">🔴 ${x.txt}</div>`).join(""):'<div class="alerta greenBox">Nenhum alerta crítico.</div>';alertasAtencao.innerHTML=aten.length?aten.map(x=>`<div class="alerta yellowBox">🟡 ${x.txt}</div>`).join(""):'<div class="alerta greenBox">Nenhum alerta de atenção.</div>';alertasOk.innerHTML=(!crit.length&&!aten.length)?'<div class="alerta greenBox">🟢 Todos os registros estão sem alertas ativos.</div>':'<div class="alerta blueBox">Revise os alertas acima no huddle da equipe.</div>'}
 function atualizarDispositivos(){const internados=pacientes.filter(p=>p.status==="Internado");let html='<table><tr><th>Paciente</th><th>VM</th><th>CVC</th><th>SVD</th><th>SNE/SNG</th></tr>';internados.forEach(p=>html+=`<tr><td>${p.leito} - ${p.nome}</td><td>${p.vm}${p.dataVM?`<br><span class="small">${diasDesde(p.dataVM)} dias</span>`:""}</td><td>${p.cvc}${p.dataCVC?`<br><span class="small">${diasDesde(p.dataCVC)} dias</span>`:""}</td><td>${p.svd}${p.dataSVD?`<br><span class="small">${diasDesde(p.dataSVD)} dias</span>`:""}</td><td>${p.sne}</td></tr>`);listaDispositivos.innerHTML=internados.length?html+"</table>":'<div class="alerta yellowBox">Nenhum paciente internado cadastrado.</div>'}
 function salvarHuddle(){huddle={hEnf:hEnf.value,hTec:hTec.value,hMed:hMed.value,hFisio:hFisio.value,hLeitos:hLeitos.value,hAdm:hAdm.value,hAltas:hAltas.value,hImagem:hImagem.value,hLab:hLab.value,hMedic:hMedic.value,hInsumos:hInsumos.value,hAcidente:hAcidente.value,hObs:hObs.value,atualizadoPor:usuarioAtual,atualizadoEm:new Date().toLocaleString()};salvar();atualizarTudo();alert("Huddle salvo.")}
 function carregarHuddle(){Object.keys(huddle||{}).forEach(k=>{if(document.getElementById(k))document.getElementById(k).value=huddle[k]})}
-function gerarRelatorio(){const internados=pacientes.filter(p=>p.status==="Internado"),a=gerarAlertas(),crit=a.filter(x=>x.nivel==="critico"),aten=a.filter(x=>x.nivel==="atencao");relatorio.innerHTML=`<hr><h2>Resumo do Plantão</h2><p><b>Data:</b> ${new Date().toLocaleString()}</p><p><b>Usuário:</b> ${usuarioAtual} | <b>Perfil:</b> ${perfilAtual}</p><h3>Censo</h3><p>Leitos: ${huddle.hLeitos||0} | Internados: ${internados.length} | Altas: ${pacientes.filter(p=>p.status==="Alta").length} | Óbitos: ${pacientes.filter(p=>p.status==="Óbito").length}</p><h3>Alertas críticos</h3>${crit.length?crit.map(x=>`<div class="alerta redBox">🔴 ${x.txt}</div>`).join(""):"<p>Sem alertas críticos.</p>"}<h3>Alertas de atenção</h3>${aten.length?aten.map(x=>`<div class="alerta yellowBox">🟡 ${x.txt}</div>`).join(""):"<p>Sem alertas de atenção.</p>"}<h3>Pacientes</h3>${listaPacientesHTML()}`}
-function exportarCSV(){const linhas=[["Nome","Prontuario","Leito","Admissao","Dias","Status","VM","Dias VM","CVC","Dias CVC","SVD","Dias SVD","SNE","Isolamento","Braden","Morse","SOFA","Cultura","Imagem pendente","Lab pendente","Medicamento pendente"]];pacientes.forEach(p=>linhas.push([p.nome,p.prontuario,p.leito,p.admissao,diasInternado(p.admissao),p.status,p.vm,diasDesde(p.dataVM),p.cvc,diasDesde(p.dataCVC),p.svd,diasDesde(p.dataSVD),p.sne,p.isolamento,p.braden,p.morse,p.sofa,p.cultura,p.imgPend,p.labPend,p.medPend]));const csv=linhas.map(l=>l.map(v=>`"${String(v??"").replaceAll('"','""')}"`).join(";")).join("\n");baixar("pacientes_uti_v9.csv",csv,"text/csv")}
-function exportarBackup(){baixar("backup_gestao_uti_digital_v9.json",JSON.stringify({pacientes,huddle,exportadoEm:new Date().toLocaleString()},null,2),"application/json")}
+function gerarRelatorio(){const internados=pacientes.filter(p=>p.status==="Internado"),a=gerarAlertas(),crit=a.filter(x=>x.nivel==="critico"),aten=a.filter(x=>x.nivel==="atencao");relatorio.innerHTML=`<hr><h2>Resumo Executivo do Plantão</h2><p><b>Data:</b> ${new Date().toLocaleString()}</p><p><b>Usuário:</b> ${usuarioAtual} | <b>Perfil:</b> ${perfilAtual}</p><h3>Censo</h3><p>Leitos: ${huddle.hLeitos||0} | Internados: ${internados.length} | Taxa: ${pct(internados.length,Number(huddle.hLeitos||0))}% | Altas: ${pacientes.filter(p=>p.status==="Alta").length} | Óbitos: ${pacientes.filter(p=>p.status==="Óbito").length}</p><h3>Alertas críticos</h3>${crit.length?crit.map(x=>`<div class="alerta redBox">🔴 ${x.txt}</div>`).join(""):"<p>Sem alertas críticos.</p>"}<h3>Alertas de atenção</h3>${aten.length?aten.map(x=>`<div class="alerta yellowBox">🟡 ${x.txt}</div>`).join(""):"<p>Sem alertas de atenção.</p>"}<h3>Pacientes</h3>${listaPacientesHTML()}`}
+function exportarCSV(){const linhas=[["Nome","Prontuario","Leito","Admissao","Dias","Status","VM","Dias VM","CVC","Dias CVC","SVD","Dias SVD","SNE","Isolamento","Braden","Morse","SOFA","Cultura","IRAS","Imagem pendente","Lab pendente","Medicamento pendente"]];pacientes.forEach(p=>linhas.push([p.nome,p.prontuario,p.leito,p.admissao,diasInternado(p.admissao),p.status,p.vm,diasDesde(p.dataVM),p.cvc,diasDesde(p.dataCVC),p.svd,diasDesde(p.dataSVD),p.sne,p.isolamento,p.braden,p.morse,p.sofa,p.cultura,p.iras,p.imgPend,p.labPend,p.medPend]));const csv=linhas.map(l=>l.map(v=>`"${String(v??"").replaceAll('"','""')}"`).join(";")).join("\n");baixar("pacientes_uti_v10.csv",csv,"text/csv")}
+function exportarBackup(){baixar("backup_gestao_uti_digital_v10.json",JSON.stringify({pacientes,huddle,exportadoEm:new Date().toLocaleString()},null,2),"application/json")}
 function baixar(nome,conteudo,tipo){const blob=new Blob([conteudo],{type:tipo}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download=nome;a.click();URL.revokeObjectURL(url)}
 function atualizarTudo(){listaPacientes.innerHTML=listaPacientesHTML();atualizarDashboard();atualizarAlertas();atualizarDispositivos()}
 </script>
